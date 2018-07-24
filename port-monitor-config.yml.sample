@@ -1,0 +1,12 @@
+integration_name: com.newrelic.tcp-port-monitor
+
+instances:
+  - name: <INSTANCE IDENTIFIER>
+    command: metrics
+    arguments:
+      address: localhost:80
+      network: tcp
+      timeout: 5
+    labels:
+      env: prod
+

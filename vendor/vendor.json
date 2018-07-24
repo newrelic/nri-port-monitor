@@ -1,0 +1,61 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "Ksl4kXr4ty0HwjrLRLZOrNz05Bw=",
+			"path": "github.com/Sirupsen/logrus",
+			"revision": "ba1b36c82c5e05c4f912a88eab0dcd91a171688f",
+			"revisionTime": "2017-03-14T19:23:53Z",
+			"version": "v0.11.5",
+			"versionExact": "v0.11.5"
+		},
+		{
+			"checksumSHA1": "jyYVyZKBHiXT9Fecb7iRUyXWwdI=",
+			"path": "github.com/newrelic/infra-integrations-sdk/args",
+			"revision": "b31bc81a228f7cb48496dd6c87815a119df35907",
+			"revisionTime": "2017-07-20T13:55:07Z",
+			"version": "v1.0",
+			"versionExact": "v1.0.0"
+		},
+		{
+			"checksumSHA1": "4t7HNYy4VZjvfFY6PsrzU8g1hJQ=",
+			"path": "github.com/newrelic/infra-integrations-sdk/cache",
+			"revision": "b31bc81a228f7cb48496dd6c87815a119df35907",
+			"revisionTime": "2017-07-20T13:55:07Z",
+			"version": "v1.0",
+			"versionExact": "v1.0.0"
+		},
+		{
+			"checksumSHA1": "6eFl1VzgBKkUbpcOdVhSqLz2oD4=",
+			"path": "github.com/newrelic/infra-integrations-sdk/log",
+			"revision": "b31bc81a228f7cb48496dd6c87815a119df35907",
+			"revisionTime": "2017-07-20T13:55:07Z",
+			"version": "v1.0",
+			"versionExact": "v1.0.0"
+		},
+		{
+			"checksumSHA1": "v6d2OtRT+Xxb8Ytv3L7RzWU9cHI=",
+			"path": "github.com/newrelic/infra-integrations-sdk/metric",
+			"revision": "b31bc81a228f7cb48496dd6c87815a119df35907",
+			"revisionTime": "2017-07-20T13:55:07Z",
+			"version": "v1.0",
+			"versionExact": "v1.0.0"
+		},
+		{
+			"checksumSHA1": "QAOEN0X+lEiWTXI7LjOWj1u+yfs=",
+			"path": "github.com/newrelic/infra-integrations-sdk/sdk",
+			"revision": "b31bc81a228f7cb48496dd6c87815a119df35907",
+			"revisionTime": "2017-07-20T13:55:07Z",
+			"version": "v1.0",
+			"versionExact": "v1.0.0"
+		},
+		{
+			"checksumSHA1": "JFeS7JlZ3ntfWcTfyQE0q9KgRi8=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "46eaec7899b1dd945c25db17c78ba3f0c58a6613",
+			"revisionTime": "2017-11-02T20:35:00Z"
+		}
+	],
+	"rootPath": "source.datanerd.us/FIT/port-monitor-plugin"
+}

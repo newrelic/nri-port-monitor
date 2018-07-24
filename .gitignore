@@ -1,0 +1,4 @@
+/bin/
+coverage.xml
+/vendor/
+!/vendor/vendor.json

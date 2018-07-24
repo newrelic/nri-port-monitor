@@ -1,0 +1,18 @@
+name: com.newrelic.tcp-port-monitor
+description: Reports status and metrics for tcp-port-monitor service
+protocol_version: 1
+os: linux
+
+commands:
+  metrics:
+    command:
+      - ./bin/nr-tcp-port-monitor
+      - --metrics
+    interval: 15
+
+  inventory:
+    command:
+      - ./bin/nr-tcp-port-monitor
+      - --inventory
+    prefix: config/nr-tcp-port-monitor
+    interval: 15
