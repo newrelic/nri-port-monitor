@@ -1,0 +1,9 @@
+[
+    {
+        "architecture": "amd64",
+        "framework": "TCP",
+        "os": "linux",
+        "product": "Infrastructure",
+        "feature": "network port"
+    }
+]
