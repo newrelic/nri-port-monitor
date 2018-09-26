@@ -57,5 +57,5 @@
 			"revisionTime": "2017-11-02T20:35:00Z"
 		}
 	],
-	"rootPath": "source.datanerd.us/FIT/port-monitor-plugin"
+	"rootPath": "github.com/newrelic/nri-port-monitor"
 }

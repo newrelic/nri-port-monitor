@@ -6,13 +6,13 @@ os: linux
 commands:
   metrics:
     command:
-      - ./bin/nr-tcp-port-monitor
+      - ./bin/port-monitor
       - --metrics
-    interval: 15
+    interval: 30
 
   inventory:
     command:
-      - ./bin/nr-tcp-port-monitor
+      - ./bin/port-monitor
       - --inventory
-    prefix: config/nr-tcp-port-monitor
-    interval: 15
+    prefix: config/port-monitor
+    interval: 30
