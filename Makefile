@@ -2,7 +2,7 @@ INTEGRATION  := $(shell basename $(shell pwd))
 BINARY_NAME   = port-monitor
 GO_PKGS      := $(shell go list ./... | grep -v "/vendor/")
 GO_FILES     := $(shell find src -type f -name "*.go")
-VALIDATE_DEPS = github.com/golang/lint/golint
+VALIDATE_DEPS = golang.org/x/lint/golint
 DEPS          = github.com/kardianos/govendor
 TEST_DEPS     = github.com/axw/gocov/gocov github.com/AlekSi/gocov-xml
 
