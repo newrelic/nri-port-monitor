@@ -2,6 +2,7 @@ package main
 
 import (
 	"net"
+	"strings"
 	"time"
 
 	sdkArgs "github.com/newrelic/infra-integrations-sdk/args"
@@ -24,19 +25,11 @@ const (
 
 var args argumentList
 
-func populateInventory(inventory sdk.Inventory) error {
-	// Insert here the logic of your integration to get the inventory data
-	// Ex: inventory.SetItem("softwareVersion", "value", "1.0.1")
-	// --
-	return nil
-}
-
 func populateMetrics(ms *metric.MetricSet) error {
-	// Insert here the logic of your integration to get the metrics data
-	// Ex: ms.SetMetric("requestsPerSecond", 10, metric.GAUGE)
-	// --
+	network := strings.TrimSpace(args.Network)
+	address := strings.TrimSpace(args.Address)
 	status := 0
-	conn, err := net.DialTimeout("tcp", args.Address, time.Duration(args.Timeout)*time.Second)
+	conn, err := net.DialTimeout(network, address, time.Duration(args.Timeout)*time.Second)
 	if err != nil {
 		status = 0
 	} else {
@@ -44,8 +37,8 @@ func populateMetrics(ms *metric.MetricSet) error {
 		conn.Close()
 	}
 
-	ms.SetMetric("network", args.Network, metric.ATTRIBUTE)
-	ms.SetMetric("address", args.Address, metric.ATTRIBUTE)
+	ms.SetMetric("network", network, metric.ATTRIBUTE)
+	ms.SetMetric("address", address, metric.ATTRIBUTE)
 	ms.SetMetric("status", status, metric.GAUGE)
 	return nil
 }
@@ -53,10 +46,6 @@ func populateMetrics(ms *metric.MetricSet) error {
 func main() {
 	integration, err := sdk.NewIntegration(integrationName, integrationVersion, &args)
 	fatalIfErr(err)
-
-	if args.All || args.Inventory {
-		fatalIfErr(populateInventory(integration.Inventory))
-	}
 
 	if args.All || args.Metrics {
 		ms := integration.NewMetricSet("NetworkPortSample")
