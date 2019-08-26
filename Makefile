@@ -10,7 +10,7 @@ all: build
 
 build: clean validate compile test
 
-clean:        
+clean:
 	@echo "=== $(INTEGRATION) === [ clean ]: removing binaries and coverage file..."
 	@rm -rfv bin coverage.xml
 
@@ -22,7 +22,7 @@ validate-only:
 	@printf "=== $(INTEGRATION) === [ validate ]: running gofmt... "
 # `gofmt` expects files instead of packages. `go fmt` works with
 # packages, but forces -l -w flags.
-	@OUTPUT="$(shell gofmt -l $(GO_FILES))" ;\
+	@OUTPUT="$(shell gofmt -d -l $(GO_FILES))" ;\
 	if [ -z "$$OUTPUT" ]; then \
 		echo "passed." ;\
 	else \

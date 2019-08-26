@@ -6,9 +6,8 @@ import (
 	"time"
 
 	sdkArgs "github.com/newrelic/infra-integrations-sdk/args"
-	"github.com/newrelic/infra-integrations-sdk/log"
-	"github.com/newrelic/infra-integrations-sdk/metric"
-	"github.com/newrelic/infra-integrations-sdk/sdk"
+	"github.com/newrelic/infra-integrations-sdk/data/metric"
+	"github.com/newrelic/infra-integrations-sdk/integration"
 )
 
 type argumentList struct {
@@ -20,42 +19,66 @@ type argumentList struct {
 
 const (
 	integrationName    = "com.newrelic.tcp-port-monitor"
-	integrationVersion = "0.1.0"
+	integrationVersion = "2.0.0"
 )
 
-var args argumentList
+var (
+	args           argumentList
+	netDialTimeout = net.DialTimeout
+)
 
-func populateMetrics(ms *metric.MetricSet) error {
+func splitPort(address string) string {
+	slices := strings.Split(address, ":")
+	if len(slices) == 1 {
+		return "80"
+	}
+
+	return slices[1]
+}
+
+func populateMetrics(ms *metric.Set) {
 	network := strings.TrimSpace(args.Network)
 	address := strings.TrimSpace(args.Address)
+	port := splitPort(address)
 	status := 0
-	conn, err := net.DialTimeout(network, address, time.Duration(args.Timeout)*time.Second)
-	if err != nil {
-		status = 0
-	} else {
+
+	conn, err := netDialTimeout(
+		network,
+		address,
+		time.Duration(args.Timeout)*time.Second,
+	)
+
+	if err == nil {
 		status = 1
 		conn.Close()
 	}
 
 	ms.SetMetric("network", network, metric.ATTRIBUTE)
 	ms.SetMetric("address", address, metric.ATTRIBUTE)
+	ms.SetMetric("port", port, metric.ATTRIBUTE)
 	ms.SetMetric("status", status, metric.GAUGE)
-	return nil
+}
+
+func panicOnErr(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
 
 func main() {
-	integration, err := sdk.NewIntegration(integrationName, integrationVersion, &args)
-	fatalIfErr(err)
+	integration, err := integration.New(
+		integrationName,
+		integrationVersion,
+		integration.Args(&args),
+	)
+	panicOnErr(err)
 
-	if args.All || args.Metrics {
-		ms := integration.NewMetricSet("NetworkPortSample")
-		fatalIfErr(populateMetrics(ms))
-	}
-	fatalIfErr(integration.Publish())
-}
+	entity := integration.LocalEntity()
 
-func fatalIfErr(err error) {
-	if err != nil {
-		log.Fatal(err)
+	args.NriAddHostname = true
+	if args.All() || args.Metrics {
+		populateMetrics(entity.NewMetricSet("NetworkPortSample"))
 	}
+
+	panicOnErr(integration.Publish())
 }
