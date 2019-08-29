@@ -1,3 +1,11 @@
+# Don't assume PATH settings
+export PATH := $(PATH):$(GOPATH)/bin
+WORKDIR      := $(shell pwd)
+TARGET       := target
+TARGET_DIR    = $(WORKDIR)/$(TARGET)
+SOURCE_DIR    = $(TARGET_DIR)/source
+PACKAGES_DIR  = $(TARGET_DIR)/packages
+TARBALL_DIR  ?= $(PACKAGES_DIR)/tarball
 INTEGRATION  := $(shell basename $(shell pwd))
 BINARY_NAME   = port-monitor
 GO_PKGS      := $(shell go list ./... | grep -v "/vendor/")
@@ -71,5 +79,24 @@ test-only:
 	@gocov test $(GO_PKGS) | gocov-xml > coverage.xml
 
 test: test-deps test-only
+
+package: compile
+	@echo "=== $(INTEGRATION) === [ package ]: preparing a clean packaging environment..."
+	@rm -rf $(SOURCE_DIR)
+	@mkdir -p $(SOURCE_DIR)/nri-port-monitor/bin
+	@echo "=== $(INTEGRATION) === [ package ]: adding built binaries and configuration and definition files..."
+	@cp bin/$(BINARY_NAME) $(SOURCE_DIR)/nri-port-monitor/bin
+	@chmod 755 $(SOURCE_DIR)/nri-port-monitor/bin/*
+	@cp ./*-definition.yml $(SOURCE_DIR)/nri-port-monitor/
+	@chmod 644 $(SOURCE_DIR)/nri-port-monitor/*-definition.yml
+	@cp ./*-config.yml.sample $(SOURCE_DIR)/nri-port-monitor/
+	@chmod 644 $(SOURCE_DIR)/nri-port-monitor/*-config.yml.sample
+	@cp ./README.md $(SOURCE_DIR)/nri-port-monitor/
+	@chmod 644 $(SOURCE_DIR)/nri-port-monitor/README.md
+	@cp ./LICENSE $(SOURCE_DIR)/nri-port-monitor/
+	@chmod 644 $(SOURCE_DIR)/nri-port-monitor/LICENSE
+	@echo "=== $(INTEGRATION) === [ package ]: building Tarball package..."
+	@mkdir -p $(TARBALL_DIR)
+	tar -czf $(TARBALL_DIR)/nri-port-monitor.tar.gz -C $(SOURCE_DIR) ./
 
 .PHONY: all build clean validate-deps validate-only validate compile-deps compile-only compile test-deps test-only test
