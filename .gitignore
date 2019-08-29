@@ -1,4 +1,5 @@
 /bin/
 coverage.xml
 /vendor/
+/target/
 !/vendor/vendor.json
