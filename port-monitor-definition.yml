@@ -9,10 +9,3 @@ commands:
       - ./bin/port-monitor
       - --metrics
     interval: 30
-
-  inventory:
-    command:
-      - ./bin/port-monitor
-      - --inventory
-    prefix: config/port-monitor
-    interval: 30
