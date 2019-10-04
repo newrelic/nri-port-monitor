@@ -15,7 +15,7 @@ This is the description about how to run the Port Monitor Integration with New R
 ## Installation
 
 * Download an archive file for the port-monitor Integration
-* Place the executables under `bin` directory and the definition file `port-monitor-definition.yml` in `/var/db/newrelic-infra/newrelic-integrations`
+* Copy the `bin` directory with `nri-port-monitor` executiable, and the definition file `port-monitor-definition.yml` to `/var/db/newrelic-infra/newrelic-integrations`
 * Set execution permissions for the binary file `nr-port-monitor`
 * Place the integration configuration file `port-monitor-config.yml.sample` in `/etc/newrelic-infra/integrations.d`
 
