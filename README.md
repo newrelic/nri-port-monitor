@@ -10,7 +10,7 @@ You should have the infrastructure agent installed (see [agent installation](htt
 
 ## Installation
 
-* Download and unpack the ZIP file from [Releases](./releases).
+* Download and unpack the ZIP file from [Releases](https://github.com/newrelic/nri-port-monitor/releases).
 * Copy the `bin` directory with `nri-port-monitor` executable, and the `port-monitor-definition.yml` config file to `/var/db/newrelic-infra/newrelic-integrations`.
 * Set execution permissions for the binary file `nr-port-monitor`.
 * Place the integration configuration file `port-monitor-config.yml.sample` in `/etc/newrelic-infra/integrations.d`.
