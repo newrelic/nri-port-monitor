@@ -56,7 +56,7 @@ By issuing the following NRQL, you can display the results of the port monitor.
 SELECT latest(status) FROM NetworkPortSample FACET address SINCE 30 MINUTES AGO TIMESERIES
 ```
 
-0 = Port closed
+0 = Port closed  
 1 = Port open
 
 ## Building
