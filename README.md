@@ -10,21 +10,54 @@ You should have the infrastructure agent installed (see [agent installation](htt
 
 ## Installation
 
-* Download and unpack the ZIP file from [Releases](https://github.com/newrelic/nri-port-monitor/releases).
-* Copy the `bin` directory with `nri-port-monitor` executable, and the `port-monitor-definition.yml` config file to `/var/db/newrelic-infra/newrelic-integrations`.
-* Set execution permissions for the binary file `nr-port-monitor`.
+* Download and unpack the ZIP file from [Releases](https://github.com/newrelic/nri-port-monitor/releases).  
+
+```sh bash
+wget https://github.com/newrelic/nri-port-monitor/releases/download/1.3/nri-port-monitor.tar.gz
+tar -zxvf nri-port-monitor.tar.gz 
+```
+
+* Copy the `bin` directory with `nri-port-monitor` executable, and the `port-monitor-definition.yml` config file to `/var/db/newrelic-infra/newrelic-integrations`.  
+
+```sh bash
+sudo cp nri-port-monitor/bin/port-monitor /var/db/newrelic-infra/newrelic-integrations/bin/
+sudo cp nri-port-monitor/port-monitor-definition.yml /var/db/newrelic-infra/newrelic-integrations/
+```
+
+* Set execution permissions for the binary file `nr-port-monitor`.  
+
+``` sh bash
+sudo chmod +x /var/db/newrelic-infra/newrelic-integrations/bin/port-monitor
+```
+
 * Place the integration configuration file `port-monitor-config.yml.sample` in `/etc/newrelic-infra/integrations.d`.
 
 ## Configuration
 
-In order to use the Port Monitor Integration it is required to configure `port-monitor-config.yml.sample` file. Firstly, rename the file to `port-monitor-config.yml`. Then, depending on your needs, specify all instances that you want to monitor. Once this is done, restart the Infrastructure agent.
+In order to use the Port Monitor Integration it is required to configure `port-monitor-config.yml.sample` file. Firstly, rename the file to `port-monitor-config.yml`.  
 
-    ```sh bash
-    sudo systemctl stop newrelic-infra | sudo service newrelic-infra stop
-    sudo systemctl start newrelic-infra | sudo service newrelic-infra start
-    ```
+```sh bash
+sudo cp nri-port-monitor/port-monitor-config.yml.sample /etc/newrelic-infra/integrations.d/port-monitor-config.yml
+```
+
+Then, depending on your needs, specify all instances that you want to monitor. Once this is done, restart the Infrastructure agent.
+
+```sh bash
+sudo systemctl restart newrelic-infra.service
+```
 
 Data should start flowing into your New Relic account. See [Understand and use data from Infrastructure integrations](https://docs.newrelic.com/docs/integrations/infrastructure-integrations/get-started/understand-use-data-infrastructure-integrations).
+
+## View data
+
+By issuing the following NRQL, you can display the results of the port monitor.
+
+```sql NRQL
+SELECT latest(status) FROM NetworkPortSample FACET address SINCE 30 MINUTES AGO TIMESERIES
+```
+
+0 = Port closed
+1 = Port open
 
 ## Building
 
@@ -36,7 +69,7 @@ After cloning this repository, go to the directory of the Port Monitor integrati
 $ make
 ```
 
-The command above executes the tests for the Port Monitor integration and builds an executable file called `nri-port-monitor` under the `bin` directory. 
+The command above executes the tests for the Port Monitor integration and builds an executable file called `nri-port-monitor` under the `bin` directory.  
 
 To start the integration, run `nri-port-monitor`:
 
@@ -102,4 +135,5 @@ If you would like to contribute to this project, please review [these guidelines
 To all contributors, we thank you!  Without your contribution, this project would not be what it is today.
 
 ## License
+
 nri-port-monitor is licensed under the [Apache 2.0](http://apache.org/licenses/LICENSE-2.0.txt) License.
