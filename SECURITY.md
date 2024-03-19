@@ -2,7 +2,7 @@
 
 New Relic is committed to the security of our customers and your data. We believe that engaging with security researchers through our coordinated disclosure program is an important means to achieve our security goals.
 
-If you believe you have found a security vulnerability in one of our products or websites, we welcome and greatly appreciate you reporting it to New Relic through our [coordinated disclosure page on HackerOne](https://hackerone.com/newrelic).
+If you believe you have found a security vulnerability in one of our products or websites, we welcome and greatly appreciate you reporting it to New Relic through our [our bug bounty program](https://docs.newrelic.com/docs/security/security-privacy/information-security/report-security-vulnerabilities/).
 
 ## Coordinated disclosure program
 
