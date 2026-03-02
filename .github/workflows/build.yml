@@ -20,7 +20,7 @@ jobs:
         check-latest: true
 
     - name: Build
-      run: go build -v ./...
+      run: go build -v -o /tmp/nri-port-monitor ./src/
 
     - name: Test
       run: go test -v ./...
