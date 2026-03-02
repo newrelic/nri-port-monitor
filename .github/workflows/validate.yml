@@ -1,0 +1,47 @@
+# This workflow will validate a golang project
+
+name: Validate
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.24.x'
+        check-latest: true
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+
+    - name: Add GOBIN to PATH
+      run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+      shell: bash
+
+    - name: Install staticcheck
+      run: "go install 'honnef.co/go/tools/cmd/staticcheck@latest'"
+
+    - name: Run pre-commit
+      uses: pre-commit/action@v3.0.1
+
+    - name: Install commitlint
+      run: "npm install -g @commitlint/cli @commitlint/config-conventional"
+
+    - name: Lint last commit message
+      run: "commitlint --from HEAD~1 --to HEAD --verbose"

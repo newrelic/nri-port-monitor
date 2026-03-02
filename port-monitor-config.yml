@@ -1,0 +1,22 @@
+# New Relic Integration Config for Port Monitor
+#
+# This integration checks the availability of a specified network port
+
+integrations:
+  - name: nri-port-monitor
+    interval: 60s
+    env:
+      # Network type. Known networks are: 
+      # tcp, tcp4 (IPv4-only), tcp6 (IPv6-only), 
+      # udp, udp4 (IPv4-only), udp6 (IPv6-only), 
+      # ip, ip4 (IPv4-only), ip6 (IPv6-only), 
+      # unix, unixgram and unixpacket
+      NETWORK: tcp
+
+      # Address to check in the format host:port
+      ADDRESS: localhost:80
+
+      # Timeout in seconds
+      TIMEOUT: 5
+    labels:
+      env: production

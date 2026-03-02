@@ -1,5 +1,8 @@
-/bin/
-coverage.xml
-/vendor/
-/target/
-!/vendor/vendor.json
+bin/*
+bin
+.DS_STORE
+.env
+dist/
+__tools/
+*.local.*
+node_modules/*
