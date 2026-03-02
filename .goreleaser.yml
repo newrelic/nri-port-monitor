@@ -35,6 +35,10 @@ archives:
     format_overrides:
     - goos: windows
       format: zip
+    files:
+      - README.md
+      - LICENSE
+      - port-monitor-config.yml
 
 checksum:
   name_template: 'checksums.txt'
@@ -48,3 +52,4 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
+      - '^chore:'
