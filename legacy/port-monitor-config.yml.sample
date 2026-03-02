@@ -9,4 +9,3 @@ instances:
       timeout: 5
     labels:
       env: prod
-

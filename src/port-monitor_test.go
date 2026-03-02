@@ -122,7 +122,7 @@ func TestPopulateMetrics(t *testing.T) {
 	if !ok {
 		t.Errorf("populateMetrics, expected port attribute but found none")
 	}
-	if actual != expected {
-		t.Errorf("populateMetrics, got: %f, expected: %f", actual, expected)
+	if actual2 != expected2 {
+		t.Errorf("populateMetrics, got: %s, expected: %s", actual2, expected2)
 	}
 }
