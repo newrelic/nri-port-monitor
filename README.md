@@ -48,7 +48,7 @@ SELECT latest(status), latest(status_reason) FROM NetworkPortSample FACET addres
 | `connected`             | 1        | TCP connection succeeded |
 | `dial_failed`           | 0        | Could not dial or write to the target |
 | `udp_response_received` | 1        | UDP — data was received from the target |
-| `udp_timeout`           | 1        | UDP — no response within the deadline; port is open or silently filtered (likely via firewall) |
+| `udp_open`              | 1        | UDP — no response within the deadline; port is open or silently filtered (likely via firewall) |
 | `udp_rejected`          | 0        | UDP — ICMP port unreachable received |
 
 

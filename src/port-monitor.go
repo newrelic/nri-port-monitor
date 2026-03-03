@@ -49,12 +49,13 @@ func isUDPNetwork(network string) bool {
 
 // checkUDPPort probes a UDP port by sending a small packet and waiting for
 // either a response or an ICMP port-unreachable error surfaced as a read
-// error. Returns the status (1 = open/filtered, 0 = closed) and a reason
-// string that describes the outcome.
+// error.
+//
+// Returns the status (1 = open/filtered, 0 = closed) and a reason string.
 //
 // Response map:
 //   - data received             → 1, "udp_response_received"
-//   - read deadline exceeded    → 1, "udp_timeout"  (open or silently filtered, likely via firewall)
+//   - read deadline exceeded    → 1, "udp_open"     (open or silently filtered; matches nmap open|filtered)
 //   - non-timeout read error    → 0, "udp_rejected" (ICMP port unreachable)
 //   - dial or write error       → 0, "dial_failed"
 func checkUDPPort(network, address string, timeout time.Duration) (int, string) {
@@ -74,8 +75,8 @@ func checkUDPPort(network, address string, timeout time.Duration) (int, string) 
 	_, err = conn.Read(buf)
 	if err != nil {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-			// No ICMP rejection within the deadline — port is open or filtered.
-			return 1, "udp_timeout"
+			// No ICMP rejection within the window — port is open or filtered (likely via firewall).
+			return 1, "udp_open"
 		}
 		// Non-timeout error (e.g. ECONNREFUSED from ICMP port unreachable).
 		return 0, "udp_rejected"

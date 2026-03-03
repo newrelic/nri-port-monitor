@@ -213,13 +213,13 @@ func TestCheckUDPPort(t *testing.T) {
 		t.Errorf("data received: got status=%d reason=%q, want 1/udp_response_received", status, reason)
 	}
 
-	// Case 3: Read returns timeout error → status=1, reason="udp_timeout"
+	// Case 3: Read returns timeout error → status=1, reason="udp_open"
 	netDialTimeout = func(network, address string, timeout time.Duration) (net.Conn, error) {
 		return &mockConnConfigurable{readErr: &mockTimeoutError{}}, nil
 	}
 	status, reason = checkUDPPort("udp", "127.0.0.1:9999", 3*time.Second)
-	if status != 1 || reason != "udp_timeout" {
-		t.Errorf("timeout: got status=%d reason=%q, want 1/udp_timeout", status, reason)
+	if status != 1 || reason != "udp_open" {
+		t.Errorf("timeout: got status=%d reason=%q, want 1/udp_open", status, reason)
 	}
 
 	// Case 4: Read returns non-timeout error (ICMP port unreachable) → status=0, reason="udp_rejected"
@@ -248,7 +248,7 @@ func TestPopulateMetrics_UDP(t *testing.T) {
 		expectedStatus float64
 		expectedReason string
 	}{
-		{"open_filtered", 1, "udp_timeout", 1.0, "udp_timeout"},
+		{"open_filtered", 1, "udp_open", 1.0, "udp_open"},
 		{"response_received", 1, "udp_response_received", 1.0, "udp_response_received"},
 		{"rejected", 0, "udp_rejected", 0.0, "udp_rejected"},
 		{"dial_failed", 0, "dial_failed", 0.0, "dial_failed"},
