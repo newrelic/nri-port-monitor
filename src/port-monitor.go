@@ -13,13 +13,13 @@ import (
 type argumentList struct {
 	sdkArgs.DefaultArgumentList
 	Network string `default:"tcp" help:"Network type. Known networks are tcp, tcp4 (IPv4-only), tcp6 (IPv6-only), udp, udp4 (IPv4-only), udp6 (IPv6-only), ip, ip4 (IPv4-only), ip6 (IPv6-only), unix, unixgram and unixpacket"`
-	Address string `default:":80" help:"Address? host:port"`
+	Address string `default:":80" help:"Address in the format host:port"`
 	Timeout int    `default:"5" help:"Timeout in seconds"`
 }
 
 const (
-	integrationName    = "com.newrelic.tcp-port-monitor"
-	integrationVersion = "2.0.0"
+	integrationName    = "com.newrelic.labs.nri-port-monitor"
+	integrationVersion = "1.4.0"
 )
 
 var (

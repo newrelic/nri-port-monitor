@@ -1,0 +1,38 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+default_stages:
+- pre-commit
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+  - id: check-added-large-files
+  - id: fix-byte-order-marker
+  - id: check-executables-have-shebangs
+  - id: check-json
+  - id: check-shebang-scripts-are-executable
+  - id: check-yaml
+    exclude: cf-template.yaml
+  - id: end-of-file-fixer
+  - id: mixed-line-ending
+  - id: trailing-whitespace
+- repo: https://github.com/Bahjat/pre-commit-golang
+  rev: v1.0.6
+  hooks:
+  - id: go-vet
+- repo: local
+  hooks:
+  - id: go-staticcheck
+    name: go staticcheck
+    entry: staticcheck
+    language: system
+    types: [go]
+    pass_filenames: false
+    args: ["./..."]
+- repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+  rev: v9.23.0
+  hooks:
+  - id: commitlint
+    stages:
+    - commit-msg
+    additional_dependencies: ['@commitlint/config-conventional']

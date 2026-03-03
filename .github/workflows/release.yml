@@ -1,0 +1,51 @@
+# This workflow will release a golang project using goreleaser
+
+name: Release
+
+permissions: write-all
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.24.x'
+        check-latest: true
+
+    - name: Set up svu
+      uses: obfu5c8/action-svu@v1
+      id: install_svu
+      with:
+        type: none
+
+    - name: Tag latest commit
+      id: tag-commit
+      run: |
+        CURR=$(svu c)
+        NEXT=$(svu)
+        if [[ "$NEXT" != "$CURR" ]]; then
+          git tag $NEXT
+          echo "next-version=$NEXT" >> "$GITHUB_OUTPUT"
+        else
+          echo "next-version=" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Run GoReleaser
+      uses: goreleaser/goreleaser-action@v6
+      if: steps.tag-commit.outputs.next-version != ''
+      with:
+        args: release --clean
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
