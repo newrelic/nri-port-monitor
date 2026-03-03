@@ -34,11 +34,23 @@ Reports up or down status for a network (TCP, UDP etc) port.
 By issuing the following NRQL, you can display the results of the port monitor.
 
 ```sql NRQL
-SELECT latest(status) FROM NetworkPortSample FACET address SINCE 30 MINUTES AGO TIMESERIES
+SELECT latest(status), latest(status_reason) FROM NetworkPortSample FACET address SINCE 30 MINUTES AGO TIMESERIES
 ```
 
+### `status` values
 0 = Port closed
 1 = Port open
+
+### `status_reason` values
+
+| `status_reason`         | `status` | Description |
+|-------------------------|----------|-------------|
+| `connected`             | 1        | TCP connection succeeded |
+| `dial_failed`           | 0        | Could not dial or write to the target |
+| `udp_response_received` | 1        | UDP — data was received from the target |
+| `udp_timeout`           | 1        | UDP — no response within the deadline; port is open or silently filtered (likely via firewall) |
+| `udp_rejected`          | 0        | UDP — ICMP port unreachable received |
+
 
 ## Building
 
