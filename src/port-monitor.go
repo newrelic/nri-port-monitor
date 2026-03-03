@@ -19,7 +19,7 @@ type argumentList struct {
 
 const (
 	integrationName    = "com.newrelic.labs.nri-port-monitor"
-	integrationVersion = "1.4.0"
+	integrationVersion = "1.4.1"
 )
 
 var (
